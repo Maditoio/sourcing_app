@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { getAuthSecret } from "@/lib/auth-secret";
 
 const protectedPrefixes = ["/dashboard", "/orders", "/notifications", "/profile", "/admin"];
 
@@ -8,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
   if (!isProtected) return NextResponse.next();
 
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  const token = await getToken({ req: request, secret: getAuthSecret() });
   if (!token) {
     const login = new URL("/login", request.url);
     login.searchParams.set("callbackUrl", pathname);
