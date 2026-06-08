@@ -3,7 +3,13 @@ import { auth, signOut } from "@/lib/auth";
 import { NotificationBell } from "@/components/ui/NotificationBell";
 
 export async function TopNav() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch {
+    session = null;
+  }
+
   const user = session?.user;
 
   return (

@@ -5,11 +5,11 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users } from "@/drizzle/schema";
 import { loginSchema } from "@/lib/validations";
-import { getAuthSecret } from "@/lib/auth-secret";
+import { getAuthSecrets } from "@/lib/auth-secret";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
-  secret: getAuthSecret(),
+  secret: getAuthSecrets(),
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
